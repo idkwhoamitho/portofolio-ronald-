@@ -1,26 +1,158 @@
 @import "tailwindcss";
 
+/* ─── Endfield Design Tokens ─────────────────────────────────── */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --color-dark-bg: #313739;
+  --color-slate-grey: #7e807c;
+  --color-olive-drab: #657136;
+  --color-neon-yellow: #f8f546;
+  --color-light-grey: #a0aaa9;
+  --color-panel-bg: rgba(49, 55, 57, 0.75);
+  --color-glass-border: rgba(160, 170, 169, 0.25);
+  --color-glass-border-strong: rgba(160, 170, 169, 0.5);
+
+  /* Layout */
+  --nav-height: 64px;
+}
+html {
+  scroll-behavior: smooth;
+  scroll-snap-type: y mandatory;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+section {
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+}
+/* ─── Base Reset ─────────────────────────────────────────────── */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  scroll-behavior: smooth;
+  background-color: var(--color-dark-bg);
+  color: #ffffff;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: var(--color-dark-bg);
+  color: #ffffff;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* ─── Scrollbar ──────────────────────────────────────────────── */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: var(--color-dark-bg);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-olive-drab);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-neon-yellow);
+}
+
+/* ─── Selection ──────────────────────────────────────────────── */
+::selection {
+  background: var(--color-neon-yellow);
+  color: var(--color-dark-bg);
+}
+
+/* ─── HUD Utility Classes ────────────────────────────────────── */
+.hud-text {
+  font-family: var(--font-space-mono), "Courier New", monospace;
+  font-size: 0.7rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-light-grey);
+}
+
+.hud-border {
+  border: 1px solid var(--color-glass-border);
+}
+
+.neon-text {
+  color: var(--color-neon-yellow);
+}
+
+.glass-panel {
+  background: var(--color-panel-bg);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--color-glass-border);
+}
+
+/* ─── Section Spacing ────────────────────────────────────────── */
+.section-container {
+  position: relative;
+  z-index: 10;
+  min-height: 100vh;
+  padding: 6rem 2rem;
+  max-width: 1280px;
+  margin: 0 auto;
+}
+
+@media (min-width: 768px) {
+  .section-container {
+    padding: 8rem 4rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .section-container {
+    padding: 10rem 6rem;
+  }
+}
+
+/* ─── Scanline overlay ───────────────────────────────────────── */
+.scanline-overlay::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(0, 0, 0, 0.04) 2px,
+    rgba(0, 0, 0, 0.04) 4px
+  );
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* ─── Animated gradient glow ─────────────────────────────────── */
+@keyframes glow-pulse {
+  0%, 100% { opacity: 0.4; }
+  50%       { opacity: 0.8; }
+}
+
+.glow-yellow {
+  box-shadow: 0 0 18px rgba(248, 245, 70, 0.35);
+  animation: glow-pulse 3s ease-in-out infinite;
+}
+
+/* ─── Progress bar ───────────────────────────────────────────── */
+.skill-bar-track {
+  width: 100%;
+  height: 3px;
+  background: rgba(160, 170, 169, 0.15);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.skill-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--color-olive-drab), var(--color-neon-yellow));
+  border-radius: 2px;
+  transform-origin: left;
 }
